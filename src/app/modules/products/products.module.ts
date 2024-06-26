@@ -20,11 +20,13 @@ import { ProductsHomeComponent } from './pages/products-home/products-home.compo
 import { RouterModule } from '@angular/router';
 import { PRODUCTS_ROUTES } from './products.routing';
 import { ProductsTableComponent } from './components/products-table/products-table.component';
+import { ProductFormComponent } from './components/product-form/product-form.component';
 
 @NgModule({
   declarations: [
     ProductsHomeComponent,
-    ProductsTableComponent
+    ProductsTableComponent,
+    ProductFormComponent
   ],
   imports: [
     CommonModule,
