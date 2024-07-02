@@ -8,6 +8,7 @@ import { EnventAction } from 'src/app/models/user/interfaces/products/event/Even
 import { GetAllProductsResponse } from 'src/app/models/user/interfaces/products/response/GetAllProductsResponse';
 import { ProductsService } from 'src/app/services/products/products.service';
 import { ProductFormComponent } from '../../components/product-form/product-form.component';
+import { overrides } from 'chart.js/dist/core/core.defaults';
 
 @Component({
   selector: 'app-products-home',
@@ -72,6 +73,7 @@ constructor(
   this.ref = this.dialogService.open(ProductFormComponent, {
     header: event?.action,
     width:'70%',
+    contentStyle: {overflow: 'auto'},
     baseZIndex:10000,
     maximizable:true,
     data :{

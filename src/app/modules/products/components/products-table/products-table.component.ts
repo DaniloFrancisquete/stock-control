@@ -19,6 +19,7 @@ public addProductEvent = ProductEvent.ADD_PRODUCT_EVENT;
 public editProductEvent = ProductEvent.EDIT_PRODUCT_EVENT;
 
 handleProductsEvent(action: string,id?: string): void {
+
   if(action && action !== '') {
     const productEventData = id && id !== '' ? {action, id} : {action};
     this.productEvent.emit(productEventData)
