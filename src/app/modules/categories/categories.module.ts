@@ -20,13 +20,15 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TooltipModule } from 'primeng/tooltip';
 import { CategoriesTableComponent } from './components/categories-table/categories-table.component';
 import { ConfirmationService } from 'primeng/api';
+import { CategoriesFormComponent } from './components/categories-form/categories-form.component';
 
 
 
 @NgModule({
   declarations: [
     CategorieHomeComponent,
-    CategoriesTableComponent
+    CategoriesTableComponent,
+    CategoriesFormComponent
   ],
   imports: [
     CommonModule,

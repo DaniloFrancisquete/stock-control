@@ -22,11 +22,29 @@ export class CategoriesService {
 
   constructor(private http: HttpClient, private cookie: CookieService) { }
 
+  createNewCategory(requestDatas: {
+    name:string;
+  }): Observable<Array<GetCategoriesResponse>> {
+    return this.http.post<Array<GetCategoriesResponse>> (
+      `${this.API_URL}/category`,
+      requestDatas,
+      this.httpOtions
+    )
+    }
 
   getAllCategories(): Observable<Array<GetCategoriesResponse>> {
     return this.http.get<Array<GetCategoriesResponse>>(
       `${this.API_URL}/categories`,
       this.httpOtions
-    )
+    );
+  }
+
+  deleteCategory(requestDatas: { category_id: string }): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/category/delete`, {
+      ...this.httpOtions,
+      params: {
+        category_id: requestDatas?.category_id,
+      },
+    });
   }
 }
