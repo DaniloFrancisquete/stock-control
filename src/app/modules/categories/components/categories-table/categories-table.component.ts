@@ -17,7 +17,7 @@ export class CategoriesTableComponent {
 
 public categorySelected!: GetCategoriesResponse;
 public addCategoryAction = CategoryEvent.ADD_CATEGORY_ACTION;
-public aditCategoryAction = CategoryEvent.EDIT_CATEGORY_ACTION;
+public editCategoryAction = CategoryEvent.EDIT_CATEGORY_ACTION;
 
 handleDeleteCategoryEvent(category_id: string, categoryName: string): void {
   if(category_id !== '' && categoryName !== '') {

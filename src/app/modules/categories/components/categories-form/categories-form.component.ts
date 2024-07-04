@@ -34,7 +34,19 @@ public categoryForm = this.FormBuilder.group({
   ) {}
 
   ngOnInit(): void {
+    this.categoryAction = this.ref.data;
 
+    if(this.categoryAction?.event?.action === this.editCategoryAction && this.categoryAction?.event?.categoryName !== null || undefined) {
+      this.setCategoryName(this.categoryAction?.event?.categoryName as string)
+    }
+  }
+
+  handleSubmitCategoryAction(): void {
+if(this.categoryAction?.event?.action === this.addCategoryAction) {
+  this.handleSubmitAddCategory();
+} else if (this.categoryAction?.event?.action === this.editCategoryAction) {
+  this.handleSubmitEditCategory();
+}
   }
 
 handleSubmitAddCategory(): void {
@@ -70,6 +82,52 @@ this.categoriesService.createNewCategory(requestCreateCategory)
   }
 })
 
+  }
+}
+
+handleSubmitEditCategory(): void {
+  if (
+    this.categoryForm?.value &&
+    this.categoryForm?.valid &&
+    this.categoryAction?.event?.id
+  ) {
+    const requesEditCategory: { name: string; category_id: string} = {
+      name:this.categoryForm?.value?.name as string,
+      category_id: this.categoryAction?.event?.id
+    };
+
+    this.categoriesService
+    .editCategoryName(requesEditCategory)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: () => {
+        this.categoryForm.reset();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Categoria editada com sucesso!',
+          life:3000,
+        });
+      },
+      error: (err) => {
+        console.log(err);
+        this.categoryForm.reset();
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao editar categoria!',
+          life:3000,
+        })
+      }
+    });
+  }
+}
+
+setCategoryName(categoryName:string): void {
+  if(categoryName) {
+    this.categoryForm.setValue({
+      name: categoryName,
+    })
   }
 }
 

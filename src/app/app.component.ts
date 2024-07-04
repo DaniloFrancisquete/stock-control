@@ -14,6 +14,10 @@ constructor(private primeNgConfig: PrimeNGConfig) {}
 
 ngOnInit(): void {
     this.primeNgConfig.ripple = true;
+    this.primeNgConfig.setTranslation({
+      apply:'Aplicar',
+      clear: 'Limpar'
+    })
   }
 
 }
