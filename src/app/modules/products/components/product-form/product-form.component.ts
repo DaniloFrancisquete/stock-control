@@ -13,6 +13,7 @@ import { EnventAction } from 'src/app/models/user/interfaces/products/event/Even
 import { ProductsDataTransferService } from 'src/app/shared/services/products/products-data-transfer.service';
 import { ProductEvent } from 'src/app/models/enums/products/ProductEvent';
 import { EditProductRequest } from 'src/app/models/user/interfaces/products/request/EditProductRequest';
+import { SaleProductRequest } from 'src/app/models/user/interfaces/products/request/SaleProductRequest';
 
 @Component({
   selector: 'app-product-form',
@@ -53,6 +54,11 @@ export class ProductFormComponent implements OnInit, OnDestroy{
     category_id:['',Validators.required],
   })
 
+  public saleProductForm = this.FormBuilder.group({
+    amount: [0,Validators.required],
+    product_id: ['',Validators.required]
+  })
+
   constructor(
     private categoriesService:  CategoriesService,
     private productsService: ProductsService,
@@ -63,6 +69,7 @@ export class ProductFormComponent implements OnInit, OnDestroy{
     public ref: DynamicDialogConfig
   ){}
 
+  public saleProductSelected!: GetAllProductsResponse;
   public addProductAction = ProductEvent.ADD_PRODUCT_EVENT;
   public editProductAction = ProductEvent.EDIT_PRODUCT_EVENT;
   public saleProductAction = ProductEvent.SALE_PRODUCT_EVENT;
@@ -175,6 +182,44 @@ this.renderDropdown = true;
       });
     }
 
+  }
+
+  handleSubmitSaleProduct(): void {
+    if(this.saleProductForm?.value && this.saleProductForm?.valid) {
+      const requestDatas: SaleProductRequest = {
+        amount: this.saleProductForm.value?.amount as number,
+        product_id: this.saleProductForm.value?.product_id as string,
+      };
+
+      this.productsService
+      .saleProduct(requestDatas)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          if(response) {
+            this.messageService.add({
+              severity: 'success',
+              summary:'Sucesso',
+              detail: 'Venda efetuada com sucesso!',
+              life:3000,
+            });
+            this.saleProductForm.reset();
+            this.getProductDatas();
+            this.router.navigate(['/dashboard'])
+          }
+        },
+        error: (err) => {
+          console.log(err);
+          this.saleProductForm.reset();
+          this.messageService.add({
+            severity:'error',
+            summary:'Erro',
+            detail:'Erro ao vender produto!',
+            life:3000,
+          })
+        }
+      })
+    }
   }
 
   getProductSelectedDatas(productId: string): void {
